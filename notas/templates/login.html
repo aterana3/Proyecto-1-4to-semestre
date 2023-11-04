@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+{% block content%}
+    <div class="container" style="max-width: 500px;">
+    <div class="py-1 mt-2 border border-1 shadow rounded ">
+        <div class="py-2 border border-1 shadow rounded bg-white">
+           <h1 class="fw-bold text-success text-center ">{{title}}</h1>
+        </div>
+        {% if error %}
+        <div class="alert alert-danger alert-dismissible fade show text-white" role="alert">
+            <strong> ¡ {{error}}</strong>, Verifique los datos...!
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endif %} 
+        <form method="POST" class="m-4"> 
+            {% csrf_token %}
+            {{form|crispy}}
+            <div class="d-flex text-center justify-content-center">
+                 <button class="btn btn-outline-success" type="submit">Iniciar Sesion</button>
+                 <a class="btn btn-outline-warning ms-2" href="{% url 'register' %}">Registrarse</a>
+            </div>
+        </form>
+    </div>
+</div>    
+
+{% endblock content %}
+   

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>{{title}}</h1>
+  <div>
+   
+   <form method="POST"> 
+        {% csrf_token %}
+           <strong>{{student.lastname}} {{student.firstname}}</strong>
+        {% if student.graduate %}
+          <p>{{student.dategraduate|date:'M j Y'}}</p> 
+          <p>Graduado</p> 
+        {% else %} 
+          <p>Sigue cursando...</p>
+        {% endif %}
+        <button type="submit">¿Graduar Estudiante?</button>
+        <a href="/students/">Cancelar</a>
+  </form>
+  </div>
+{% endblock content %}
+
+
