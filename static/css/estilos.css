@@ -1,3 +1,7 @@
+.body {
+  min-height: 100vh;
+}
+
 .tooltip-inner {
   color: whitesmoke;
 }
@@ -8,5 +12,19 @@
 
 .tooltip-inner {
   background-color: rgb(93, 93, 148)
-  
+}
+
+nav#sidebar {
+  min-height: 100vh;
+}
+
+.sidebar .sidebar-brand {
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 800;
+  padding: 1.5rem 1rem;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.05rem;
+  z-index: 1;
 }

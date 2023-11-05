@@ -46,7 +46,6 @@
     </thead>
     <tbody class="table-primary">
       {% for student in students %}
-      
       <tr>
         <td>{{student.firstname|upper}}</td>
         <td>{{student.lastname|upper}}</td>
@@ -60,8 +59,7 @@
             {% else %} 
               ➖
             {% endif %}
-        </td>  
-
+        </td>
         <td >
           {% comment %} {% url 'detail_student' student.id %} {% endcomment %}
          

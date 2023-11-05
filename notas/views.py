@@ -5,10 +5,13 @@ from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login,logout,authenticate
 from django.db import IntegrityError
-from .forms import StudentForm
-from .models import Student
+from .forms import StudentForm, UserProfileForm
+from .models import Student, UserProfile
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
+from PIL import Image
+from django.core.exceptions import ValidationError
+
 # the homepage
 def home(request):
     # return HttpResponse('<h1>Pagina de Inicio</h1>')
@@ -16,27 +19,58 @@ def home(request):
     context = {'title':'Instituto Tecnologico Unemi'}
     return render(request, 'home.html',context)
 
-# the users
 def register(request):
-    print(request.method,request.path,request.user)
     if request.method == 'GET':
-        print(request.GET)
-        context = {'title':'Registro de Usuario','form': UserCreationForm()}
-        return render(request, 'register.html',context)
+        context = {'title': 'Registro de Usuario', 'form': UserCreationForm()}
+        return render(request, 'register.html', context)
     else:
-        print(request.POST,request.POST['username'],request.POST.get('password1'))
         if request.POST['password1'] == request.POST['password2']:
-           try:
-                user = User.objects.create_user(username=request.POST['username'],password=request.POST['password1'])
-                user.save() 
-                login(request,user) # crea una cooki del usuario registrado
+            try:
+                user = User.objects.create_user(username=request.POST['username'], password=request.POST['password1'])
+                user.save()
+                user_profile = UserProfile.objects.create(user=user)
+                login(request, user)
                 return redirect('home')
-           except IntegrityError:
-                context = {'title':'Registro de Usuario','form': UserCreationForm(request.POST),'error':'Usuario ya existe'}
-                return render(request, 'register.html',context)
-        context = {'title':'Registro de Usuario','form': UserCreationForm(request.POST),'error':'Password no coinciden'}
-        return render(request, 'register.html',context)
-    
+            except IntegrityError:
+                context = {'title': 'Registro de Usuario', 'form': UserCreationForm(request.POST), 'error': 'Usuario ya existe'}
+                return render(request, 'register.html', context)
+        context = {'title': 'Registro de Usuario', 'form': UserCreationForm(request.POST), 'error': 'Password no coinciden'}
+        return render(request, 'register.html', context)
+
+
+@login_required
+def profile(request):
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, request.FILES, instance=request.user.userprofile)
+        if form.is_valid():
+            profile_image = request.FILES.get('profile_image')
+
+            if profile_image:
+                max_width = 800
+                max_height = 600
+                max_size = 2 * 1024 * 1024  # 2 MB
+
+                if profile_image.size > max_size:
+                    context = {'error': "La imagen es demasiado grande. El tamaño máximo permitido es 2MB", 'form': UserProfileForm()}
+                    return render(request, 'profile.html', context)
+
+                img = Image.open(profile_image)
+                width, height = img.size
+
+                if width > max_width or height > max_height:
+                    context = {'error': "Las dimensiones de la imagen son demasiado grandes. El ancho máximo permitido es 800px y la altura máxima permitida es 600px", 'form': UserProfileForm()}
+                    return render(request, 'profile.html', context)
+                form.save()
+                return redirect('profile')
+            else:
+                context = {'error': "Por favor, seleccione una imagen", 'form': UserProfileForm()}
+                return render(request, 'profile.html', context)
+        else:
+            context = {'form': form}
+            return render(request, 'profile.html', context)
+    else:
+        form = UserProfileForm()
+        return render(request, 'profile.html', {'form': form})
 
 def iniciarSesion(request):
     if request.method == 'GET':
@@ -158,4 +192,3 @@ def delete_student(request,id):
     except:
         context = {'title':'Datos del Estudiante','student':student,'error':'Error al eliminar estudiante'}
         return render(request, 'delete_student.html',context)  
-       

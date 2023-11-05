@@ -1,25 +1,17 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
+<header class="text-center ">
+  <div class="container py-2 border border-1 shadow rounded bg-info">
+    <h1 class="fw-bold text-white text-center">{{title}}</h1>
+  </div>
+</header>
 
-   <header class="text-center ">
-    <div class="container py-2 mt-5 border border-1 shadow rounded bg-info">
-           <h1 class="fw-bold text-white text-center ">{{title}}</h1>
+<main class="container d-flex flex-column py-1 border border-1 shadow rounded bg-white">
+  <div class="row ">
+    <div class="col-md-12 text-center">
+      <img src={% static 'img/portada2.png' %} class="img-fluid" alt="Imagen de una escuela">
     </div>
-    
-    
-  </header>
-  
-  <main class="container d-flex flex-column py-1  border border-1 shadow rounded bg-white  ">
-   
-    <div class="row ">
-      <div class="col-md-12 text-center">
-        <img src={% static 'img/portada2.png' %} class="img-fluid" alt="Imagen de una escuela">
-    
-      
-      </div>
-    </div>
-  </main>
- 
- 
+  </div>
+</main>
 {% endblock content %}

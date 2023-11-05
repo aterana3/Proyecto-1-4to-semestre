@@ -1,83 +1,97 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    {% load static%}
-    <meta charset="UTF-8" />
-    <meta name="author" content="Daniel Vera Paredes" />
-    <meta name="description" content="Registro de Notas" />
-    <meta name="keywords" content="estudiantes, asignaturas, profesor, notas" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href={% static 'css/bootstrap.min.css' %}>
-    <link rel="stylesheet" href={% static 'css/estilos.css' %}>
-     <title>Registro Notas</title>
-    <!-- fuentes de google font -->
-  </head>
-  <body>
-   <nav class="navbar navbar-expand-lg bg-success" data-bs-theme="dark">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#">DEVELOPERS</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarColor01">
-          <ul class="navbar-nav me-auto">
-            <li class="nav-item">
-              <a class="nav-link active" href={% url 'home' %}>Inicio
-                <span class="visually-hidden">(current)</span>
-              </a>
+
+<head>
+  {% load static%}
+  <meta charset="UTF-8" />
+  <meta name="author" content="Daniel Vera Paredes" />
+  <meta name="description" content="Registro de Notas" />
+  <meta name="keywords" content="estudiantes, asignaturas, profesor, notas" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href={% static 'css/bootstrap.min.css' %}>
+  <link rel="stylesheet" href={% static 'css/estilos.css' %}>
+  <title>Registro Notas</title>
+  <!-- fuentes de google font -->
+</head>
+
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+        <a class="sidebar-brand d-flex align-items-centerjustify-content-center" href="index.html">
+          <div class="sidebar-brand-text mx-3">Developer</div>
+        </a>
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link active" href={% url 'home' %}>Inicio
+              <span class="visually-hidden">(current)</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href={% url 'students' %}>Estudiantes</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Facultad</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Carrera</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Semestre</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Profesor</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Asignaturas</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Notas</a>
+          </li>
+          <!-- Puedes agregar más elementos del menú aquí -->
+        </ul>
+        <hr />
+        <ul class="nav flex-column">
+          {% if user.is_authenticated %}
+            <li class="nav-item nav-link">
+              Usuario: <span class="text-warning">{{user.username}}</span>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href={% url 'students' %}>Estudiantes</a>
+              <a class="nav-link" href={% url 'profile' %}>Perfil</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Facultad</a>
+              <a class="nav-link" href={% url 'logout' %}>Salir</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Carrera</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Semestre</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Profesor</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Asignaturas</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Notas</a>
-            </li>
-            
-          
-        
-          </ul>
-          <ul class="navbar-nav me-right">
-            {% if user.is_authenticated %}
-              <li class="nav-item">
-                <a class="nav-link" href={% url 'logout' %}>Salir</a>
-              </li>
-              <li class="nav-item nav-link">
-                Usuario: <span class="text-warning">{{user.username}}</span>
-              </li>
-            {% else %}
-                  <li class="nav-item" ><a class="nav-link" href={% url 'login' %}>Iniciar Sesion</a></li>  
-            {% endif %} 
-          </ul>
-        </div>
-      </div>
-   </nav>
-   <!-- nav>ul>li*4>a -->
-   
-   {% block content %}
+          {% else %}
+                <li class="nav-item" ><a class="nav-link" href={% url 'login' %}>Iniciar Sesion</a></li>  
+          {% endif %} 
+        </ul>
+      </nav>
       
-   {% endblock content %}
-     <script src={% static 'js/bootstrap.min.js' %}> </script>
-     <script src={% static 'js/bootstrap.bundle.min.js' %}> </script>
-     <script>
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-          return new bootstrap.Tooltip(tooltipTriggerEl)
-        })
-     </script>
- </body>
+      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-4">
+        {% block content %}
+
+        {% endblock content %}
+      </main>
+    </div>
+  </div>
+
+  <script src={% static 'js/bootstrap.min.js' %}> </script>
+  <script src={% static 'js/bootstrap.bundle.min.js' %}> </script>
+  <script>
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+  </script>
+</body>
+<footer class="bg-dark text-light">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 text-center py-3">
+        <small>Desarrollado por Daniel Vera Paredes</small>
+      </div>
+    </div>
+  </div>
+</footer>
 </html>

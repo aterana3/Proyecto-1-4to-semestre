@@ -19,6 +19,8 @@ from django.urls import path
 from notas import views
 from core import settings
 from django.conf.urls.static import static
+
+# urls.py
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home,name='home'),
@@ -30,4 +32,5 @@ urlpatterns = [
     path('register/', views.register,name='register'),
     path('login/', views.iniciarSesion,name='login'),
     path('logout/', views.cerrarSesion,name='logout'),
+    path('profile/', views.profile, name='profile'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
