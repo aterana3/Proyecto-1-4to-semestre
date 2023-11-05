@@ -14,7 +14,7 @@
   background-color: rgb(93, 93, 148)
 }
 
-nav#sidebar {
+#content-wrapper {
   min-height: 100vh;
 }
 
@@ -27,4 +27,27 @@ nav#sidebar {
   text-transform: uppercase;
   letter-spacing: 0.05rem;
   z-index: 1;
+}
+
+.circular-image {
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+}
+
+#profile-image-container {
+  display: flex;
+  align-items: center;
+  padding: 5px;
+}
+
+.profile-image {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.username {
+  font-weight: bold; 
 }

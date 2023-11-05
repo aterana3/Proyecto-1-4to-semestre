@@ -37,41 +37,47 @@ def register(request):
         context = {'title': 'Registro de Usuario', 'form': UserCreationForm(request.POST), 'error': 'Password no coinciden'}
         return render(request, 'register.html', context)
 
-
 @login_required
 def profile(request):
-    if request.method == 'POST':
-        form = UserProfileForm(request.POST, request.FILES, instance=request.user.userprofile)
-        if form.is_valid():
-            profile_image = request.FILES.get('profile_image')
+    if request.method == 'GET':
+        context = {'title': 'Perfil de Usuario', 'form': UserProfileForm()}
+        return render(request, 'profile.html', context)
+    else:
+        try:
+            user_profile = UserProfile.objects.get(user=request.user)
+            form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
+            if form.is_valid():
+                profile_image = request.FILES.get('profile_image')
+                if not profile_image:
+                    return render(request, 'profile.html', {"form": form, "error": "Por favor, seleccione una imagen"})
 
-            if profile_image:
                 max_width = 800
                 max_height = 600
-                max_size = 2 * 1024 * 1024  # 2 MB
-
+                max_size = 2 * 1024 * 1024
                 if profile_image.size > max_size:
-                    context = {'error': "La imagen es demasiado grande. El tamaño máximo permitido es 2MB", 'form': UserProfileForm()}
-                    return render(request, 'profile.html', context)
-
+                    return render(request, 'profile.html', {"form": form, "error": "La imagen es demasiado grande. El tamaño máximo permitido es 2MB"})
+        
                 img = Image.open(profile_image)
                 width, height = img.size
-
+                
                 if width > max_width or height > max_height:
-                    context = {'error': "Las dimensiones de la imagen son demasiado grandes. El ancho máximo permitido es 800px y la altura máxima permitida es 600px", 'form': UserProfileForm()}
-                    return render(request, 'profile.html', context)
+                    return render(request, 'profile.html', {"form": form, "error": "Las dimensiones de la imagen son demasiado grandes. El ancho máximo permitido es 800px y la altura máxima permitida es 600px"})
+                
                 form.save()
                 return redirect('profile')
             else:
-                context = {'error': "Por favor, seleccione una imagen", 'form': UserProfileForm()}
-                return render(request, 'profile.html', context)
-        else:
-            context = {'form': form}
-            return render(request, 'profile.html', context)
-    else:
-        form = UserProfileForm()
-        return render(request, 'profile.html', {'form': form})
+                return render(request, 'profile.html', {"form": form, "error": "Error de datos invalidos."})
+        except:
+            return render(request, 'profile.html', {"form": form, "error": "Error al actualizar perfil de usuario."})
 
+@login_required
+def get_profile_img(request):
+    user_profile = UserProfile.objects.filter(user=request.user).first()
+    if user_profile and user_profile.profile_image:
+        return JsonResponse({'img': user_profile.profile_image.url})
+    else:
+        return JsonResponse({'error': 'No tiene imagen'})
+    
 def iniciarSesion(request):
     if request.method == 'GET':
         context = {'title':'Iniciar Sesion','form':AuthenticationForm}
