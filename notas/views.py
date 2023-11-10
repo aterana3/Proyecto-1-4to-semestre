@@ -421,7 +421,7 @@ def create_semestre(request):
                 return render(request, 'create_semestre.html', {"form": form, "error": "Error de datos invalidos."}) 
         except:
             return render(request, 'create_semestre.html', {"form": form, "error": "Error al Crear Registro de Semestre."})
-        
+
 @login_required
 def update_semestre(request,id):
     semestre = Semestre.objects.get(id=id)
