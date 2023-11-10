@@ -25,9 +25,9 @@
                 </div>
             </form>
             <div class="m-2">
-                <a href="{% url 'create_semestre' %}" class="btn btn-outline-primary "
-                    data-bs-toggle="tooltip" data-bs-title="Ingresar un nueva Semestre">
-                    Registrar Semestre
+                <a href="{% url 'create_asignatura' %}" class="btn btn-outline-primary "
+                    data-bs-toggle="tooltip" data-bs-title="Ingresar un nueva Asignatura">
+                    Registrar Asignatura
                 </a>
             </div>
         </div>
@@ -41,14 +41,14 @@
             </tr>
           </thead>
           <tbody class="table-light">
-            {% for semestre in objects %}
+            {% for asignatura in objects %}
             <tr class="{% cycle 'table-default' 'table-secondary' %}">
-              <td class="text-center">{{ semestre.description|upper }}</td>
+              <td class="text-center">{{ asignatura.description|upper }}</td>
               <td class="text-center">
-                <a href="{% url 'update_semestre' semestre.id %}" data-bs-toggle="tooltip"
-                  data-bs-title="Editar la semestre">📝</a>
-                <a href="{% url 'delete_semestre' semestre.id %}" data-bs-toggle="tooltip"
-                  data-bs-title="Eliminar la semestre">❌</a>
+                <a href="{% url 'update_asignatura' asignatura.id %}" data-bs-toggle="tooltip"
+                  data-bs-title="Editar la asignatura">📝</a>
+                <a href="{% url 'delete_asignatura' asignatura.id %}" data-bs-toggle="tooltip"
+                  data-bs-title="Eliminar la asignatura">❌</a>
               </td>
             </tr>
             {% empty %}
@@ -68,11 +68,11 @@
         {% for page_num in paginator.page_range %}
         <li class="page-item text-danger fw-bold {% if page_num == pagina %}active{% endif %}">
             <a class="page-link text-primary fw-bold"
-                href="{% url 'semestres' %}?page={{ page_num }}">{{ page_num }}</a>
+                href="{% url 'asignaturas' %}?page={{ page_num }}">{{ page_num }}</a>
         </li>
         {% endfor %}
         <li class="page-item">
-            <a class="page-link text-danger fw-bold" href="{% url 'semestres' %}?page={{ paginator.num_pages }}">&raquo;</a>
+            <a class="page-link text-danger fw-bold" href="{% url 'asignaturas' %}?page={{ paginator.num_pages }}">&raquo;</a>
         </li>
     </ul>
     {% endif %}
