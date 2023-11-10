@@ -27,7 +27,7 @@ class Student(models.Model):
         ordering = ['-lastname']
 
     def __str__(self):
-        return f"{self.lastname} {self.firstname} -  {self.user.username}"
+        return f"{self.lastname} {self.firstname}"
     
 class Teacher(models.Model):
     firstname = models.CharField('Nombres', max_length=200)
@@ -41,7 +41,7 @@ class Teacher(models.Model):
         ordering = ['-lastname']
 
     def __str__(self):
-        return f"{self.lastname} {self.firstname} -  {self.user.username}"
+        return f"{self.lastname} {self.firstname}"
 
 class Facultad(models.Model):
     description = models.CharField('Descripcion', max_length=200)
@@ -66,7 +66,7 @@ class Carrera(models.Model):
         ordering = ['description']
 
     def __str__(self):
-        return f"{self.description} - {self.facultad}"
+        return f"{self.description}"
 
 class Semestre(models.Model):
     description = models.CharField('Descripcion', max_length=200)
@@ -105,10 +105,8 @@ class Notas(models.Model):
     n3 = models.IntegerField('n3')
     n4 = models.IntegerField('n4')
     ex2 = models.IntegerField('ex2')
-    isaproved = models.BooleanField('Aprobado', default=False)
     isactive = models.BooleanField('Estado', default=True)
     created = models.DateTimeField('Fecha de Creación', auto_now_add=True)
-
     class Meta:
         verbose_name = ('Nota')
         verbose_name_plural = ('Notas')

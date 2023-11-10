@@ -8,9 +8,10 @@
     <h3>Imagen de Perfil</h3>
     <div class="mb-3">
       {% if user.userprofile.profile_image %}
-        <img src="{{ user.userprofile.profile_image.url }}" alt="Mi Imagen de Perfil" class="img-thumbnail circular-image">
+      <img src="{{ user.userprofile.profile_image.url }}" alt="Mi Imagen de Perfil"
+        class="img-thumbnail circular-image">
       {% else %}
-        <img src="{% static 'img/perfil.png' %}" alt="Mi Imagen de Perfil" class="img-thumbnail circular-image">
+      <img src="{% static 'img/perfil.png' %}" alt="Mi Imagen de Perfil" class="img-thumbnail circular-image">
       {% endif %}
     </div>
     <form method="post" enctype="multipart/form-data">

@@ -19,7 +19,9 @@
   <div class="container-fluid">
     <div class="row">
       <nav id="sidebar" class="col-md-3 col-lg-2 bg-light sidebar">
-        <button type="button" class="navbar-toggler d-md-none m-3" data-bs-toggle="collapse" data-bs-target="#sidebar-data" aria-controls="sidebar-data" aria-expanded="false" aria-label="Toggle navigation">
+        <button type="button" class="navbar-toggler d-md-none m-3" data-bs-toggle="collapse"
+          data-bs-target="#sidebar-data" aria-controls="sidebar-data" aria-expanded="false"
+          aria-label="Toggle navigation">
           <i class="bi bi-list" style="font-size: 2rem;"></i>
         </button>
         <div id="sidebar-data" class="collapse d-md-block">
@@ -51,7 +53,7 @@
               <a class="nav-link" href={% url 'students' %}>Estudiantes</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Notas</a>
+              <a class="nav-link" href={% url 'notas' %}>Notas</a>
             </li>
           </ul>
           <ul class="nav flex-column">
@@ -108,5 +110,4 @@
     </div>
   </div>
 </footer>
-
 </html>

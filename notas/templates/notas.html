@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="container">
+  <div class="py-2 mt-2 border border-1 shadow rounded text-center bg-light">
+    <h1 class="fw-bold text-primary">{{ title }}</h1>
+  </div>
+  {% if error %}
+  <div class="alert alert-danger alert-dismissible fade show text-white" role="alert">
+    <strong> ¡ {{ error }} </strong>, consulte con su administrador...!
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  {% endif %}
+  <div class="mt-3">
+    <h1 class="text-center fw-bold"></h1>
+    <div class="mt-2 d-flex justify-content-between flex-wrap">
+      <form action="" style="max-width: 450px;">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Buscar..." name="q" value="{{ request.GET.q }}" minlength="2">
+          <button class="btn btn-outline-primary" data-bs-toggle="tooltip"
+            data-bs-title="Escriba y haga clic en buscar">
+            Buscar
+          </button>
+        </div>
+      </form>
+      <div class="m-2">
+        <a href="{% url 'create_nota' %}" class="btn btn-outline-primary " data-bs-toggle="tooltip"
+          data-bs-title="Ingresar un nueva Notas">
+          Registrar Nota
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-fluid">
+      <thead class="text-center text-light table-info">
+        <tr>
+          <th>Estudiante</th>
+          <th>Facultad</th>
+          <th>Carrera</th>
+          <th>Semestre</th>
+          <th>Asignatura</th>
+          <th>Profesor</th>
+          <th>N1</th>
+          <th>N2</th>
+          <th>Ex1</th>
+          <th>N3</th>
+          <th>N4</th>
+          <th>Ex2</th>
+          <th>¿Aprobado?</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody class="table-light ">
+        {% for nota in objects %}
+        <tr class="{% cycle 'table-default' 'table-secondary' %}">
+          <td class="text-center">{{ nota.student|upper }}</td>
+          <td class="text-center">{{ nota.facultad|upper }}</td>
+          <td class="text-center">{{ nota.carrera|upper }}</td>
+          <td class="text-center">{{ nota.semestre|upper }}</td>
+          <td class="text-center">{{ nota.asignatura|upper }}</td>
+          <td class="text-center">{{ nota.teacher|upper }}</td>
+          <td class="text-center">{{ nota.n1|upper }}</td>
+          <td class="text-center">{{ nota.n2|upper }}</td>
+          <td class="text-center">{{ nota.ex1|upper }}</td>
+          <td class="text-center">{{ nota.n3|upper }}</td>
+          <td class="text-center">{{ nota.n4|upper }}</td>
+          <td class="text-center">{{ nota.ex2|upper }}</td>
+          <td class="text-center">
+            {% with total=nota.n1|add:nota.n2|add:nota.ex1|add:nota.n3|add:nota.n4|add:nota.ex2 %}
+            {% if total >= 70 %}
+            ✅
+            {% else %}
+            ❌
+            {% endif %}
+            {% endwith %}
+          </td>
+          <td class="text-center">
+            <a href="{% url 'update_nota' nota.id %}" data-bs-toggle="tooltip" data-bs-title="Editar la nota">📝</a>
+            <a href="{% url 'delete_nota' nota.id %}" data-bs-toggle="tooltip" data-bs-title="Eliminar la nota">❌</a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="14" class="text-danger fw-bold h3 text-center">
+            <div class="py-2 mt-2 border border-1 shadow rounded text-center bg-light">
+              ¡No se encontraron datos que cumplan los criterios de búsqueda...!
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% if paginator.num_pages > 1 %}
+  <ul class="pagination">
+    {% for page_num in paginator.page_range %}
+    <li class="page-item text-danger fw-bold {% if page_num == pagina %}active{% endif %}">
+      <a class="page-link text-primary fw-bold" href="{% url 'notas' %}?page={{ page_num }}">{{ page_num }}</a>
+    </li>
+    {% endfor %}
+    <li class="page-item">
+      <a class="page-link text-danger fw-bold" href="{% url 'notas' %}?page={{ paginator.num_pages }}">&raquo;</a>
+    </li>
+  </ul>
+  {% endif %}
+</div>
+{% endblock content %}

@@ -5,21 +5,20 @@
 <div class="container">
     <div class="py-1 mt-2  shadow rounded ">
         <div class="py-2  shadow rounded bg-white">
-           <h1 class="fw-bold text-info text-center ">{{title}}</h1>
+            <h1 class="fw-bold text-info text-center ">{{title}}</h1>
         </div>
         {% if error %}
         <div class="alert alert-danger alert-dismissible fade show text-white" role="alert">
             <strong> ¡ {{error}}</strong>, Verifique los datos...!
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-        {% endif %} 
-        <form method="POST" class="m-4"> 
+        {% endif %}
+        <form method="POST" class="m-4">
             {% csrf_token %}
             {{form|crispy}}
             <button class="btn btn-outline-primary" type="submit">Grabar Profesor</button>
             <a class="btn btn-outline-secondary ms-2" href="/teachers/">Cancelar</a>
         </form>
     </div>
-</div>    
+</div>
 {% endblock content %}
-    

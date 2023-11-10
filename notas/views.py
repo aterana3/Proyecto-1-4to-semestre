@@ -514,14 +514,14 @@ def delete_asignatura(request,id):
 #notas
 @login_required
 def notas(request):
-    return model_list(request, Notas, "Notas", "notas.html", ["description"])
+    return model_list(request, Notas, "Notas", "notas.html", ["student__firstname", "student__lastname"])
 
 @login_required
-def create_notas(request):
+def create_nota(request):
     form = None
     if request.method == "GET":
         context = {'title':'Registro de Notas','form':NotasForm,'error':''}
-        return render(request, 'create_notas.html',context)
+        return render(request, 'create_nota.html',context)
     else:
         try:
             form = NotasForm(request.POST)
@@ -530,18 +530,18 @@ def create_notas(request):
                 notas.save()
                 return redirect('notas')
             else:
-                return render(request, 'create_notas.html', {"form": form, "error": "Error de datos invalidos."}) 
+                return render(request, 'create_nota.html', {"form": form, "error": "Error de datos invalidos."}) 
         except:
-            return render(request, 'create_notas.html', {"form": form, "error": "Error al Crear Registro de Notas."})
+            return render(request, 'create_nota.html', {"form": form, "error": "Error al Crear Registro de Notas."})
         
 @login_required
-def update_notas(request,id):
+def update_nota(request,id):
     notas = Notas.objects.get(id=id)
     form = None
     if request.method == "GET":
        form = NotasForm(instance=notas)
        context = {'title': 'Editar Notas', 'form': form, 'error': ''}
-       return render(request, 'create_notas.html', context)
+       return render(request, 'create_nota.html', context)
     else:
         try:
             form = NotasForm(request.POST, instance=notas)
@@ -549,21 +549,21 @@ def update_notas(request,id):
                 form.save()
                 return redirect('notas')
             else:
-                return render(request, 'create_notas.html', {"form": form, "error": "Error de datos inválidos."})
+                return render(request, 'create_nota.html', {"form": form, "error": "Error de datos inválidos."})
         except:
-            return render(request, 'create_notas.html', {"form": form, "error": "Error al actualizar registro de Notas."})
+            return render(request, 'create_nota.html', {"form": form, "error": "Error al actualizar registro de Notas."})
         
 @login_required
-def delete_notas(request,id):
+def delete_nota(request,id):
     notas=None
     try:
         notas = Notas.objects.get(id=id)
         if request.method == "GET":
             context = {'title':'Notas a Eliminar','notas':notas,'error':''}
-            return render(request, 'delete_notas.html',context)  
+            return render(request, 'delete_nota.html',context)  
         else: 
             notas.delete()
             return redirect('notas')
     except:
         context = {'title':'Datos del Notas','notas':notas,'error':'Error al eliminar notas'}
-        return render(request, 'delete_notas.html',context)
+        return render(request, 'delete_nota.html',context)

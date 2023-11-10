@@ -41,4 +41,4 @@ class AsignaturaForm(ModelForm):
 class NotasForm(ModelForm):
     class Meta:
         model = Notas
-        fields = ['student', 'asignatura', 'teacher', 'semestre', 'carrera', 'facultad', 'n1', 'n2', 'ex1', 'n3', 'n4', 'ex2', 'isaproved', 'isactive']
+        fields = ['student', 'asignatura', 'teacher', 'semestre', 'carrera', 'facultad', 'n1', 'n2', 'ex1', 'n3', 'n4', 'ex2', 'isactive']
