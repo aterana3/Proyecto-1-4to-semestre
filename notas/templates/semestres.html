@@ -64,14 +64,22 @@
   </div>
   {% if paginator.num_pages > 1 %}
   <ul class="pagination">
+    {% if objects.has_previous %}
+    <li class="page-item">
+      <a class="page-link text-danger fw-bold"
+        href="{% url 'semestres' %}?page={{ objects.previous_page_number }}">«</a>
+    </li>
+    {% endif %}
     {% for page_num in paginator.page_range %}
-    <li class="page-item text-danger fw-bold {% if page_num == pagina %}active{% endif %}">
+    <li class="page-item text-danger fw-bold {% if page_num == objects.number %}active{% endif %}">
       <a class="page-link text-primary fw-bold" href="{% url 'semestres' %}?page={{ page_num }}">{{ page_num }}</a>
     </li>
     {% endfor %}
+    {% if objects.has_next %}
     <li class="page-item">
-      <a class="page-link text-danger fw-bold" href="{% url 'semestres' %}?page={{ paginator.num_pages }}">&raquo;</a>
+      <a class="page-link text-danger fw-bold" href="{% url 'semestres' %}?page={{ objects.next_page_number }}">»</a>
     </li>
+    {% endif %}
   </ul>
   {% endif %}
 </div>
