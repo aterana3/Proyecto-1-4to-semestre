@@ -100,6 +100,7 @@ def get_profile_img(request):
     else:
         return JsonResponse({'error': 'No tiene imagen'})
 
+#cargar los modelos no basados en usuarios
 @login_required
 def model_list(request, model, title, template, fields):
     context, objects = None, None
@@ -124,6 +125,7 @@ def model_list(request, model, title, template, fields):
     except Exception as e:
         return render(request, template, {'title': f'Consulta de {title}', 'error': f'Ha ocurrido un error en la consulta: {e}'})
 
+# cargar los modelos basados en usuarios
 @login_required
 def model_user_list(request, model, title, template, fields):
     context, objects = None, None
